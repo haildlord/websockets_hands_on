@@ -147,3 +147,13 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+dist/
+
+# AI Assistant / Prisma Skills folders
+.claude
+.cursor
+.agents
+.devin
+
+
+prisma-8.md

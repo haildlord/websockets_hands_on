@@ -6,18 +6,26 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsx watch src/index.ts",
-    "start": "npx tsx src/index.ts"
+    "start": "npx tsx src/index.ts",
+    "postinstall": "prisma skills sync || exit 0",
+    "contract:emit": "prisma contract emit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@prisma/orm-postgres": "^8.0.0-rc.14",
     "@types/express": "^5.0.6",
-    "express": "^5.2.1"
+    "@types/pg": "^8.23.1",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
+    "@prisma/cli-engine": "^0.6.2",
     "@types/node": "^26.6.4",
+    "prisma": "^8.0.0-rc.20",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
