@@ -3,12 +3,14 @@ import express from "express";
 import http from "http";
 import { matchRouter } from "./routes/matches";
 import { attachWebSocketServer } from './ws/server';
+import { securityMiddleware } from "./security";
 
 
 const app = express();
 const server = http.createServer(app);
 
 app.use(express.json());
+app.use(securityMiddleware());
 
 app.get("/health", (req, res) => {
     res.json({
