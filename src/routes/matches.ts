@@ -16,7 +16,7 @@ matchRouter.get("/", async (req, res) => {
     if(!payload.success){
         return res.status(400).json({
             error : "Invalid query",
-            details: JSON.stringify(payload.error)
+            details: payload.error.issues
         })
     }
 
@@ -50,16 +50,17 @@ matchRouter.get("/", async (req, res) => {
 
 
 matchRouter.post("/", async (req, res) => {
+    
     const payload = createMatchSchema.safeParse(req.body);
+
     if(!payload.success) {
         return res.status(404).json({
             error   :   "Invalid Payload",
-            details :   JSON.stringify(payload.error)
+            details :   payload.error.issues
         })
     }
 
     try{
-
         const match = await db.orm.public.Matches.create({
             sport       : payload.data.sport,
             homeTeam    : payload.data.homeTeam,
@@ -71,10 +72,14 @@ matchRouter.post("/", async (req, res) => {
             status      : getMatchStatus(new Date(payload.data.startTime), new Date(payload.data.endTime))
           });
 
-          return res.status(201).json({
+          if (req.app.locals.broadCastMatchCreated) {
+            req.app.locals.broadCastMatchCreated(match);
+          }
+
+        res.status(201).json({
             message: "Match created successfully",
             match,
-          });
+        });
                     
     }catch(err){
         return res.status(500).json({

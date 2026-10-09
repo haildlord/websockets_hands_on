@@ -8,16 +8,13 @@ export const MATCH_STATUS = {
 
 export type MatchStatus = typeof MATCH_STATUS[keyof typeof MATCH_STATUS];
 
-const isoDateString = z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message : "Invalid ISO date string"
-})
 
 export const createMatchSchema = z.object({
     sport           : z.string().min(3),
     homeTeam        : z.string().min(3),
     awayTeam        : z.string().min(3),
-    startTime       : isoDateString,
-    endTime         : isoDateString,
+    startTime       : z.iso.datetime(),
+    endTime         : z.iso.datetime(),
 
     // * here below : z.number accepts : 1.5, coerce : even lets us accept "1.5" as input
     // * then int() : forces it to be only 1 not 1.5, nonnegative : not -ve
