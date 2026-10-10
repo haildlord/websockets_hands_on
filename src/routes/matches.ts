@@ -3,8 +3,11 @@ import { createMatchSchema, listMatchesQuerySchema} from "../validation/matches"
 import { db } from "../prisma/db";
 import { getMatchStatus } from "../utils/match-status";
 import { Temporal } from "temporal-polyfill";
+import { commentaryRouter } from "./commentary";
 
 export const matchRouter = Router();
+
+matchRouter.use("/:id/commentary", commentaryRouter);
 
 const MAX_LIMIT : number = 100;
 
